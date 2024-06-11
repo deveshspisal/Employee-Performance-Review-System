@@ -1,7 +1,8 @@
 const express = require('express');
 const cors = require('cors')
-const validator = require('validator');
+const validator = require('express-validator');
 
+const {checkSchema} = validator
 const app = express()
 
 app.use(express.json())
@@ -13,7 +14,12 @@ const DBconnect = require('./db/config');
 const userCltr = require('./app/controllers/users-controller');
 DBconnect()
 
-app.post('/api/create-user',userCltr.create)
+
+// validations 
+const userRegistartionSchema = require('./app/validations/users-validation')
+
+app.post('/api/create-user',checkSchema(userRegistartionSchema),userCltr.create)
+app.post('/api/login-user',userCltr.login)
 app.get('/api/users',userCltr.list)
 
 
