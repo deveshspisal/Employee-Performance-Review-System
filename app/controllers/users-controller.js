@@ -64,4 +64,41 @@ userCltr.login = async (req,res) =>{
     }
 
 }
+
+userCltr.getUser = async (req, res) =>{
+    try{
+        const id = req.params.id
+        const singleUser = await User.findOne({_id : id})
+        res.json(singleUser)
+    }catch(err){
+        console.log(err);
+        res.status(400).json('Internal Server error')
+    }
+
+}
+
+
+userCltr.update = async (req, res) =>{
+    try{
+        const userId = req.params.id
+        const body = req.body
+        const updateUser = await User.findByIdAndUpdate(userId,body,{new: true})
+        res.json(updateUser)
+    }catch(err){
+        console.log(err);
+        res.status(400).json('Internal Server error')
+    }
+}
+
+
+userCltr.delete = async (req,res) =>{
+    try{
+        const userId = req.params.id
+        const deleteUser = await User.findByIdAndDelete(userId,{new: true})
+        res.json(deleteUser)
+    }catch(err){
+        console.log(err);
+        res.status(400).json('Internal Server error')
+    }
+}
 module.exports = userCltr
