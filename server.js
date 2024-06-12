@@ -17,6 +17,7 @@ DBconnect()
 // validations 
 const userRegistartionSchema = require('./app/validations/users-validation')
 const departmentSchema = require('./app/validations/department-validation')
+const roleSchema = require('./app/validations/role-validation')
 
 // user routes
 const userCltr = require('./app/controllers/users-controller');
@@ -42,7 +43,7 @@ app.delete('/api/delete-department/:id',departmentCltr.delete)
 
 // Roles routes
 const roleCltr = require('./app/controllers/role-controller')
-app.post('/api/create-role',roleCltr.create)
+app.post('/api/create-role',checkSchema(roleSchema),roleCltr.create)
 app.get('/api/get-role',roleCltr.list)
 app.get('/api/get-role/:id',roleCltr.getSingleRole)
 app.put('/api/update-role/:id',roleCltr.update)

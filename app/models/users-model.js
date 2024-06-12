@@ -8,7 +8,14 @@ const userSchema = Schema({
     lastName : String,
     email : String,
     password : String,
-    role : String,
+    role : {
+        type: Schema.Types.ObjectId,
+        ref: 'Role'
+    },
+    department : {
+        type: Schema.Types.ObjectId,
+        ref: 'Role'
+    },
     postion : String,
     dateOfJoining : Date,
 },{timestamps:true})

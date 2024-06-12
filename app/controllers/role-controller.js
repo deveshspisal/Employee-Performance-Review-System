@@ -1,9 +1,14 @@
 const Role = require('../models/role-model')
-
+const {validationResult} = require('express-validator')
 const roleCltr = {}
 
 
 roleCltr.create = async (req,res)=>{
+    const errors = validationResult(req)
+    if(!errors.isEmpty()){
+        return res.status(400).json({errors : errors})
+
+    }
     try{
         const body = req.body
         const roleSave = new Role(body)
