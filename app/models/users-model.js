@@ -14,7 +14,7 @@ const userSchema = Schema({
     },
     department : {
         type: Schema.Types.ObjectId,
-        ref: 'Role'
+        ref: 'Department'
     },
     postion : String,
     dateOfJoining : Date,

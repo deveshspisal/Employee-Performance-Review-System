@@ -24,15 +24,40 @@ userCltr.create = async (req, res) =>{
     }
 }
 
-userCltr.list = async (req,res) =>{
-    try{
-        const users = await User.find()
-        res.json(users)
-    }catch(err){
-        console.log('error in list user',err);
-        res.status(201).json('error in listing record')
+userCltr.list = async (req, res) => {
+    try {
+        const users = await User.aggregate([{
+            $lookup: {
+                from: 'departments',
+                localField: 'department',
+                foreignField: '_id',
+                as: 'depts',
+                pipeline : [{$project : {
+                    "_id" : 1,
+                    "name" : 1
+                }}]
+            }
+        },
+        {
+            $lookup: {
+                from: 'roles',
+                localField: 'role',
+                foreignField: '_id',
+                as: 'roles',
+                pipeline : [{$project : {
+                    "_id" : 1,
+                    "roleName" : 1,
+                    "permission" : 1
+                }}]
+            }
+        }
+    
+    ],);
+        res.json(users);
+    } catch (err) {
+        console.log('error in list user', err);
+        res.status(201).json('error in listing record');
     }
-
 }
 
 userCltr.login = async (req,res) =>{
